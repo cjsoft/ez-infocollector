@@ -1,0 +1,13 @@
+<!doctype html>
+<title>Hello from Flask</title>
+
+<h1>
+    hello
+</h1>
+{%if content%}
+
+    {{content|safe}}
+    
+{%else%}
+    <h2>hello</h2>
+{%endif%}

@@ -1,5 +1,5 @@
 # coding=gbk
-
+import sys,getopt
 import os,flask
 from flask import Flask
 from flask import Response
@@ -30,8 +30,14 @@ def mfr(formname=None):
             return flask.render_template("template.html",content=flask.render_template("formlist.html",content=st))
         else:
             return flask.render_template("template.html",content=formname)
-
-
+por=8080
+addres="0.0.0.0"
+opts,args=getopt.getopt(sys.argv[1:],"h:p:")
+for op,value in opts:
+    if(op=="-h"):
+        addres=value
+    elif(op=="-p"):
+        por=int(value)
 
 app.debug=True
-app.run(host="0.0.0.0")
+app.run(host=addres,port=por)

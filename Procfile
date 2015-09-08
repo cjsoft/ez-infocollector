@@ -1,1 +1,1 @@
-web: python entrance.py
+web: python entrance.py -h $VCAP_APP_HOST -p $VCAP_APP_PORT

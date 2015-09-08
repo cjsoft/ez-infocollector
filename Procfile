@@ -1,1 +1,1 @@
-web: gunicorn entrance:app -b $VCAP_APP_HOST:$VCAP_APP_PORT
+web: python entrance.py

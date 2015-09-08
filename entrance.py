@@ -29,7 +29,7 @@ def mfr(formname=None):
                         st+="<a href=form/%s>%s</a><br>"%(i,i)
             return flask.render_template("template.html",content=flask.render_template("formlist.html",content=st))
         else:
-            return flask.render_template("template.html",content=formname)
+            return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content="<a href=/form>..</a><br>%s"%formname)
 por=8080
 addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:")

@@ -1,6 +1,9 @@
 <!doctype html>
-<title>Hello from Flask</title>
-
+{%if title%}
+<title>{{title}}</title>
+{%else%}
+<title>CJSoft Info Collector</title>
+{%endif%}
 <h1>
     hello
 </h1>

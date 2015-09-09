@@ -58,7 +58,6 @@ for op,value in opts:
 	elif(op=="-p"):
 		por=int(value)
 
-print $
 reload(sys)
 sys.setdefaultencoding('utf-8')
 app.debug=True

@@ -11,4 +11,5 @@ class dumb(object):
 		self.password=sqlservices[u"credentials"][u"password"]
 		self.uri=sqlservices[u"credentials"][u"uri"]
 		self.jdbcUrl=sqlservices[u"credentials"][u"jdbcUrl"]
+		
 sql=dumb()

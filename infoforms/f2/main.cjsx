@@ -1,1 +1,1 @@
-{"type":"text","name":"inputbox1","precaption":"please input","poscaption":"667"}
+[{"type":"text","name":"inputbox1","precaption":"please input","poscaption":"667"}]

@@ -13,7 +13,7 @@ def makeform(alist):
             tempstr+="%s<input type=\"%s\" name=\"%s\" value=\"%s\" />%s<br>"%(i.get(u"precaption",""),i.get(u"type",""),i.get(u"name",""),i.get(u"value",""),i.get(u"poscaption",""))
         else:
             tempstr+="%s<input type=\"%s\" name=\"%s\" />%s<br>"%(i.get(u"precaption",""),i.get(u"type",""),i.get(u"name",""),i.get(u"poscaption",""))
-    return "<form>%s</form>"%tempstr
+    return tempstr
 
 def getpath(rph):
     return os.path.join(os.getcwd(),rph);

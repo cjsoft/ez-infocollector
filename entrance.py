@@ -44,7 +44,7 @@ def mfr(formname=None):
 					a=json.loads(f.read().decode("utf8"))
 				return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>%s"%(formname,makeform(a))).decode("utf-8"))
 		else:
-			return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>成功"))
+			return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>成功"%str(request)))
 	except AttributeError:
 		return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>唔，看起来这个表单无法渲染"%formname).decode("utf-8"))
 	except:

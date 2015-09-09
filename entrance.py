@@ -20,7 +20,7 @@ def getpath(rph):
 
 @app.route("/")
 def root():
-	return app.send_static_file('index.html')
+	return os.getenv("VCAP_SERVICES")
 	if os.path.exists("index.html"):
 		return app.send_static_file("index.html")
 	elif os.path.exists("index.htm"):
@@ -58,7 +58,7 @@ for op,value in opts:
 	elif(op=="-p"):
 		por=int(value)
 
-
+print $
 reload(sys)
 sys.setdefaultencoding('utf-8')
 app.debug=True

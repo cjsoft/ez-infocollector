@@ -1,1 +1,4 @@
-{"type":"text","name":"inputbox1","precaption":"please input","poscaption":"666"}
+[
+    "id int",
+    "info text"
+]

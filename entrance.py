@@ -40,6 +40,15 @@ def root():
         return app.send_static_file("index.html")
     elif os.path.exists("index.htm"):
         return app.send_static_file("index.htm")
+# @app.route("/<path:path>")
+# def sta(path):
+#     #return "hello"
+#     print "!!!"
+    
+#     if(len(os.path.splitext(path)[1])>0):
+#         return app.send_static_file(path)
+#     else:
+#         return app.send_static_file(os.path.join(path,"index.html"))
 @app.route("/form")
 @app.route("/form/<formname>",methods=["POST","GET"])
 def mfr(formname=None):

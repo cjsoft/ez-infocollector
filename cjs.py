@@ -1,10 +1,17 @@
+from __future__ import unicode_literals
 import os,json
 import MySQLdb
+
 class dumb(object):
     def __init__(self):
-        vcap_services=json.loads("{\"mysql\":[{\"name\":\"cjsoft-ez-infocollector\",\"label\":\"mysql\",\"tags\":[\"mysql\"],\"plan\":\"default\",\"credentials\":{\"hostname\":\"127.0.0.1\",\"port\":3306,\"name\":\"testdb\",\"username\":\"root\",\"password\":\"airport\",\"uri\":\"mysql://root:airport@10.9.1.188:3306/testdb?reconnect=true\",\"jdbcUrl\":\"jdbc:mysql://127.0.0.1:3306/testdb?user=root&password=airport\"}}]}".encode("utf8"))
+        a=os.getenv("VCAP_SERVICES")
+        #print a
+        if(a is None):
+            a="{\"mysql\":[{\"name\":\"cjsoft-ez-infocollector\",\"label\":\"mysql\",\"tags\":[\"mysql\"],\"plan\":\"default\",\"credentials\":{\"hostname\":\"127.0.0.1\",\"port\":3306,\"name\":\"testdb\",\"username\":\"root\",\"password\":\"airport\",\"uri\":\"mysql://root:airport@10.9.1.188:3306/testdb?reconnect=true\",\"jdbcUrl\":\"jdbc:mysql://127.0.0.1:3306/testdb?user=root&password=airport\"}}]}"
+        vcap_services=json.loads(a.encode("utf8"))
         sqlservices=vcap_services[u"mysql"][0]
         self.name=sqlservices[u"credentials"][u"name"]
+        #print vcap_services
         self.hostname=sqlservices[u"credentials"][u"hostname"]
         self.port=sqlservices[u"credentials"][u"port"]
         self.username=sqlservices[u"credentials"][u"username"]
@@ -38,3 +45,9 @@ execute=sql.execute
 def close():
     sql.close()
     sqlconnection.close()
+    
+def select():
+    execute("select * from f2")
+    a=sql.fetchall()
+    for i in a:
+        print i[1].decode("utf8")

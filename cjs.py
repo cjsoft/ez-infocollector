@@ -54,15 +54,24 @@ def select():
         print i[1].decode("utf8")
 
 def export(dbname):
-    if(sys.platform.find("linux")!=-1):
-        ask="/tmp/ez-infocollector_%s.sql"%uuid.uuid4()
+    if(False):
+        ask="temp/ez-infocollector_%s.out"%uuid.uuid4()
         while(os.path.isfile(ask)):
-            ask="/tmp/ez-infocollector_%s.sql"%uuid.uuid4()
+            ask="temp/ez-infocollector_%s.out"%uuid.uuid4()
     else:
         if not(os.path.isdir(os.path.join(os.getcwd(),"tmp"))):
             os.makedirs(os.path.join(os.getcwd(),"tmp"))
-        ask=os.path.join(os.getcwd(),"tmp","%s.sql"%uuid.uuid4())
+        ask=os.path.join(os.getcwd(),"tmp","%s.out"%uuid.uuid4())
         while(os.path.isfile(ask)):
-            ask=os.path.join(os.getcwd(),"tmp","%s.sql"%uuid.uuid4())
-    execute("select * from %s into outfile \"%s\""%(dbname,ask))
+            ask=os.path.join(os.getcwd(),"tmp","%s.out"%uuid.uuid4())
+    execute("select * from %s"%dbname)
+    a=sql.fetchall()
+    f=open(ask,"w")
+    for i in a:
+        for j,k in enumerate(i):
+            f.write(k.decode("utf8"))
+            if(j!=len(i)-1):
+                f.write("\t")
+        f.write("\n")
+    f.close()
     return ask

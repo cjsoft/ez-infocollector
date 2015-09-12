@@ -1,6 +1,6 @@
 import zipfile
 import uuid,os
-import chardet
+# import chardet
 def collect_uploads(dbname,sqlpath):
     if not(os.path.isdir(os.path.join(os.getcwd(),"export"))):
         os.makedirs(os.path.join(os.getcwd(),"export"))
@@ -25,7 +25,6 @@ def changecharset(path):
     if(os.path.isfile(path)):
         f=open(path,"rb")
         a=f.read()
-        print chardet.detect(a.encode("utf8"))
         f.close()
         f=open(path,"w")
         f.write(unicode(a,"utf8"))

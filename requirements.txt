@@ -2,7 +2,4 @@ Flask==0.9
 Jinja2==2.7.2
 Werkzeug==0.8.3
 mysql-python==1.2.5
-flask-login==0.3.0
-flask-openid==1.2.4
-flask-sqlalchemy==2.0
 chardet=2.3.0

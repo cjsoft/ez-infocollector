@@ -27,6 +27,6 @@ def changecharset(path):
         a=f.read()
         print chardet.detect(a.encode("utf8"))
         f.close()
-        f=open(path,"wb")
+        f=open(path,"w")
         f.write(unicode(a,"utf8"))
         f.close()

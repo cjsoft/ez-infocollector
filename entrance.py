@@ -1,6 +1,7 @@
 #-*- coding=utf-8 -*-
 import sys,getopt,shutil
 import os,flask,json,cjs
+import uuid
 from flask import Flask
 from flask import Response
 from flask import request
@@ -22,7 +23,7 @@ def makesqlstr(alist):
         return ",".join(map(str,alist))
 
 def makeform(alist):
-    return "<form method=\"post\">%s<br><br><input type=\"submit\" value=\"提交\"></form>"%alist
+    return "%s<br><br><input type=\"submit\" value=\"提交\"></form>"%alist
     tempstr=""
     for i in alist:
         if "value" in i:
@@ -58,26 +59,36 @@ def mfr(formname=None):
                 lst=os.listdir(getpath("infoforms"))
                 st=""
                 for i in lst:
-                    if(os.path.isdir(getpath("infoforms/" + i))):
+                    if(os.path.isdir(getpath(os.path.join("infoforms" , i)))):
                         if(os.path.isfile(getpath(os.path.join("infoforms",i,"main.cjsx")))):
                             st+="<a href=form/%s>%s</a><br>"%(i,i)
                 return flask.render_template("template.html",content=flask.render_template("formlist.html",content=st))
             else:
-                if not(os.path.isfile(getpath("infoforms/%s/db.lock"%formname))):
-                    sqlstr=makesqlstr(json.loads(readfile(getpath("infoforms/%s/main.cjsx"%formname))))
+                if not(os.path.isfile(getpath(os.path.join("infoforms",formname,"db.lock")))):
+                    sqlstr=makesqlstr(json.loads(readfile(getpath(os.path.join("infoforms",formname,"db.lock")))))
                     cjs.execute("drop table if exists %s"%formname)
                     # print ("create table %s(%s)"%(formname,sqlstr))
                     cjs.execute("create table %s(%s)"%(formname,sqlstr))
                     cjs.sqlconnection.commit
-                    f=open("infoforms/%s/db.lock"%formname,"w")
+                    f=open(os.path.join("infoforms",formname,"db.lock"),"w")
                     f.write("lock")
                     f.close()
-                if os.path.isfile(getpath("infoforms/%s/main.cjsx"%formname)):
-                    f=open(getpath("infoforms/%s/main.cjsx"%formname),"r")
+                if os.path.isfile(os.path.join("infoforms",formname,"main.cjsx")):
+                    f=open(getpath(os.path.join("infoforms",formname,"main.cjsx")),"r")
                     a=json.loads(f.read().decode("utf8"))
-                return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>%s"%(formname,makeform(readfile(getpath("infoforms/%s/form.html"%formname))))).decode("utf-8"))
+                return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>%s"%(formname,makeform(readfile(getpath("infoforms/%s/form.html"%formname))))).decode("utf-8"))
         else:
+            if not os.path.isdir(getpath(os.path.join("upload",formname))):
+                os.makedirs(getpath(os.path.join("upload",formname)))
+            files= request.files.to_dict()
             form=request.form.to_dict()
+            for i in files:
+                ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
+                while(os.path.isfile(ask)):
+                    ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
+                request.files[i].save(getpath(ask))
+                form[i]=ask
+            
             alist=list()
             blist=[i for i in form]
             for i in form:
@@ -86,24 +97,15 @@ def mfr(formname=None):
             cjs.execute("insert into %s(%s) values(%s)"%(formname,makesqlstr(blist),makesqlstr(len(alist))),alist)
             cjs.commit()
 
-            # form=request.form.to_dict()
-            # alist=list()
-            # blist=json.loads(readfile(getpath("infoforms/%s/main.cjsx"%formname)))
-            # for i in blist:
-            #     alist.append(form.get(i.split(" ")[0],""))
-            # print "insert into %s values(%s)"%(formname,makesqlstr(alist))
-            # cjs.execute("insert into %s values(%s)"%(formname,makesqlstr(len(alist))),alist)
-            # cjs.commit()
+           
             
-            return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>成功"%str(request.form)))
-    except ZeroDivisionError:
-            pass
+            return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>成功，对象</h2><h2>%s</h2><h2>已加入数据库，文件（若有）已被上传并索引</h2><a href=/form style=\"font-size:18px\">返回</a>"%str(request.form)))
     except AttributeError,e:
         print e
-        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>唔，看起来这个表单无法渲染"%formname).decode("utf-8"))
+        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，看起来这个表单无法渲染"%formname).decode("utf-8"))
     except BaseException,e:
         print e
-        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form>返回</a><br><br>唔，遇到了一点错误,这极有可能是表单编写不规范造成的"%formname).decode("utf-8"))
+        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，遇到了一点错误,这极有可能是表单编写不规范造成的"%formname).decode("utf-8"))
 por=8080
 addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:")
@@ -116,5 +118,6 @@ for op,value in opts:
 reload(sys)
 #cjs.connect()
 sys.setdefaultencoding('utf-8')
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
 app.debug=True
 app.run(host=addres,port=por)

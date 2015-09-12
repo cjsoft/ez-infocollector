@@ -1,4 +1,0 @@
-[
-    "id int",
-    "info text"
-]

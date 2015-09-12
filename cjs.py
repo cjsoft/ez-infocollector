@@ -69,9 +69,12 @@ def export(dbname):
     f=open(ask,"w")
     for i in a:
         for j,k in enumerate(i):
-            f.write(k.decode("utf8"))
+            if type(k) is str:
+                f.write(str(k).encode("gb2312"))
+            else:
+                f.write(str(k).encode("gb2312"))
             if(j!=len(i)-1):
-                f.write("\t")
-        f.write("\n")
+                f.write("\t".encode("gb2312"))
+        f.write("\n".encode("gb2312"))
     f.close()
     return ask

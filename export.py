@@ -9,7 +9,7 @@ def collect_uploads(dbname,sqlpath):
         ask=os.path.join(os.getcwd(),"export",str(uuid.uuid4())+".zip")    
     zipf=zipfile.ZipFile(ask,mode="w",compression=zipfile.ZIP_STORED)
     if(os.path.isfile(sqlpath)):
-        changecharset(sqlpath)
+
         zipf.write(sqlpath,"export.xls")
         
     if(os.path.isdir(os.path.join(os.getcwd(),"upload",dbname))):
@@ -21,12 +21,3 @@ def collect_uploads(dbname,sqlpath):
     zipf.close()
     os.remove(sqlpath)
     return ask
-    
-def changecharset(path):
-    if(os.path.isfile(path)):
-        f=open(path,"rb")
-        a=f.read()
-        f.close()
-        f=open(path,"w")
-        f.write(unicode(a,"utf8"))
-        f.close()

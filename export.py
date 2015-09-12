@@ -19,15 +19,14 @@ def collect_uploads(dbname,sqlpath):
     for i in flist:
         zipf.write(os.path.join(os.getcwd(),"upload",dbname,i),os.path.join("upload",dbname,i))
     zipf.close()
-    if(os.path.isfile(sqlpath)):
-        os.remove(sqlpath)
     return ask
     
 def changecharset(path):
     if(os.path.isfile(path)):
         f=open(path,"rb")
-        a=f.read().decode("utf8")
+        a=f.read()
+        print chardet.detect(a.encode("utf8"))
         f.close()
-        f=open(path,"w")
-        f.write(a)
+        f=open(path,"wb")
+        f.write(unicode(a,"utf8"))
         f.close()

@@ -68,11 +68,11 @@ def mfr(formname=None):
                 return flask.render_template("template.html",content=flask.render_template("formlist.html",content=st))
             else:
                 if not(os.path.isfile(getpath(os.path.join("infoforms",formname,"db.lock")))):
-                    sqlstr=makesqlstr(json.loads(readfile(getpath(os.path.join("infoforms",formname,"db.lock")))))
+                    sqlstr=makesqlstr(json.loads(readfile(getpath(os.path.join("infoforms",formname,"main.cjsx")))))
                     cjs.execute("drop table if exists %s"%formname)
                     # print ("create table %s(%s)"%(formname,sqlstr))
                     cjs.execute("create table %s(%s)"%(formname,sqlstr))
-                    cjs.sqlconnection.commit
+                    cjs.commit()
                     f=open(os.path.join("infoforms",formname,"db.lock"),"w")
                     f.write("lock")
                     f.close()

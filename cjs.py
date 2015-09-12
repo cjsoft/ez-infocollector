@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 import os,json
+import sys
 import MySQLdb
-
+import uuid
 class dumb(object):
     def __init__(self):
         a=os.getenv("VCAP_SERVICES")
@@ -47,7 +48,21 @@ def close():
     sqlconnection.close()
     
 def select():
-    execute("select * from f2")
+    execute("select * from f2 into outfile \"/tmp/asd.xls\"")
     a=sql.fetchall()
     for i in a:
         print i[1].decode("utf8")
+
+def export(dbname):
+    if(sys.platform.find("linux")!=-1):
+        ask="/tmp/ez-infocollector_%s.sql"%uuid.uuid4()
+        while(os.path.isfile(ask)):
+            ask="/tmp/ez-infocollector_%s.sql"%uuid.uuid4()
+    else:
+        if not(os.path.isdir(os.path.join(os.getcwd(),"tmp"))):
+            os.makedirs(os.path.join(os.getcwd(),"tmp"))
+        ask=os.path.join(os.getcwd(),"tmp","%s.sql"%uuid.uuid4())
+        while(os.path.isfile(ask)):
+            ask=os.path.join(os.getcwd(),"tmp","%s.sql"%uuid.uuid4())
+    execute("select * from %s into outfile \"%s\""%(dbname,ask))
+    return ask

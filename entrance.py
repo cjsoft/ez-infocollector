@@ -2,9 +2,12 @@
 import sys,getopt,shutil
 import os,flask,json,cjs
 import uuid
+import export
+from flask import url_for
 from flask import Flask
 from flask import Response
 from flask import request
+from werkzeug import SharedDataMiddleware
 app=Flask(__name__)
 
 def readfile(path):
@@ -106,6 +109,20 @@ def mfr(formname=None):
     except BaseException,e:
         print e
         return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，遇到了一点错误,这极有可能是表单编写不规范造成的"%formname).decode("utf-8"))
+@app.route("/export/<dbname>")
+def exportresults(dbname):
+    if(os.path.isfile(getpath(os.path.join("infoforms",dbname,"db.lock")))):
+        sqlpath=cjs.export(dbname)
+        rstr=export.collect_uploads(dbname,sqlpath)
+        psplit=os.path.split(rstr)
+        f= flask.send_from_directory(psplit[0],psplit[1])
+        os.remove(rstr)
+        return f
+    else:
+        return flask.render_template("template.html",title="CJSoft Info Collector",content=("<h2>导出失败，没有可供导出的数据</h2>").decode("utf8"))
+@app.route("/favicon.ico")
+def favicon():
+    return app.send_static_file("favicon.ico")
 por=8080
 addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:")
@@ -119,5 +136,7 @@ reload(sys)
 #cjs.connect()
 sys.setdefaultencoding('utf-8')
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
+
 app.debug=True
 app.run(host=addres,port=por)
+

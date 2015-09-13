@@ -139,7 +139,7 @@ def favicon():
 def recap():
     a,b=recapcha.create_validate_code()
     flask.session["recap"]=b
-    temp=a.recap.read()
+    temp=a.read()
     a.close()
     return temp
 por=8080

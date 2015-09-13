@@ -2,11 +2,11 @@
 
 aucode="cjsoft"
 maxuploadlimit=20*1024*1024
-
+secretkey="s%#$ra4$^q3$^25w&rae24s"
 
 import sys,getopt,shutil
 import os,flask,json,cjs
-import uuid
+import uuid,recapcha
 import export
 from flask import url_for
 from flask import Flask
@@ -135,6 +135,13 @@ def exportresults(dbname):
 @app.route("/favicon.ico")
 def favicon():
     return app.send_static_file("favicon.ico")
+@app.route("/recapcha.py")
+def recap():
+    a,b=recapcha.create_validate_code()
+    flask.session["recap"]=b
+    temp=a.recap.read()
+    a.close()
+    return temp
 por=8080
 addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:")
@@ -145,7 +152,7 @@ for op,value in opts:
         por=int(value)
 
 reload(sys)
-#cjs.connect()
+app.secret_key=secretkey
 sys.setdefaultencoding('utf-8')
 app.config['MAX_CONTENT_LENGTH'] = maxuploadlimit
 

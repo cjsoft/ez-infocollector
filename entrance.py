@@ -88,7 +88,6 @@ def mfr(formname=None):
         else:
             files= request.files.to_dict()
             form=request.form.to_dict()
-            print form["recaptcha"],flask.session.get("recap")
             if (form["recaptcha"].upper()!=flask.session.get("recap").upper()):
                 return flask.render_template("template.html",title="CJSoft Info Collector",content="%s<br><br>%s<br><input type=\"submit\" value=\"提交\"></form>"%(readfile(getpath("infoforms/%s/form.html"%formname)),flask.render_template("recaptcha.html",recaptcha="true",inrecap="true")))
             del form["recaptcha"]
@@ -101,7 +100,11 @@ def mfr(formname=None):
                 while(os.path.isfile(ask)):
                     ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 request.files[i].save(getpath(ask))
-                form[i]=ask
+                if(os.path.getsize(getpath(ask))==0):
+                	os.remove(getpath(ask))
+                	form[i]=""
+                else:
+                	form[i]=ask
             
             alist=list()
             blist=[i for i in form]

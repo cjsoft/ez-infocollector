@@ -113,12 +113,12 @@ def mfr(formname=None):
             return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>成功，对象</h2><h2>%s</h2><h2>已加入数据库，文件（若有）已被上传并索引</h2><a href=/form style=\"font-size:18px\">返回</a>"%str(form)))
     except ZeroDivisionError:
         pass
-    # except AttributeError,e:
-    #     print e
-    #     return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，看起来这个表单无法渲染"%formname).decode("utf-8"))
-    # except BaseException,e:
-    #     print e
-    #     return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，遇到了一点错误,这极有可能是表单编写不规范造成的"%formname).decode("utf-8"))
+    except AttributeError,e:
+        print e
+        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，看起来这个表单无法渲染"%formname).decode("utf-8"))
+    except BaseException,e:
+        print e
+        return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，遇到了一点错误,你是不是写错了格式？"%formname).decode("utf-8"))
 @app.route("/export/<dbname>",methods=["POST","GET"])
 def exportresults(dbname):
     if request.method=="GET":

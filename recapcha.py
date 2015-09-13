@@ -108,5 +108,5 @@ def create_validate_code(size=(120, 30),
     img.save(rimg,"jpeg")
     rimg.seek(0)
     return rimg, strs
-
-create_validate_code()
+if __name__=="__main__":
+    create_validate_code()

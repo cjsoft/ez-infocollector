@@ -141,7 +141,7 @@ def recap():
     flask.session["recap"]=b
     temp=a.read()
     a.close()
-    return temp
+    return flask.Response(temp, mimetype='image/jpeg')
 por=8080
 addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:")

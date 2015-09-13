@@ -1,0 +1,22 @@
+{%if recaptcha%}
+<div>
+	<script type="text/javascript">  
+        function reImg(){  
+            var img = document.getElementById("recaptchapy");  
+            img.src = "../../recapcha.py/" + Math.random();
+        }  
+	</script>
+	<label>
+		<span id="recaptchalbl">验证码：</span><span>
+		<input type="text" name="recaptcha" id="recaptcha">
+		</span><span>
+		<img src="../../recapcha.py" id="recaptchapy" onclick="reImg();" />
+		</span>
+		{%if inrecap%}
+		<span style="color:red;padding-top:7px;">Invalid Recaptcha Code</span>
+		{%endif%}
+	</label>
+	
+</div>
+<p><br></p>
+{%endif%}

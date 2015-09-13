@@ -14,13 +14,13 @@ def create_validate_code(size=(120, 30),
                          mode="RGB",
                          bg_color=(255, 255, 255),
                          fg_color=(0, 0, 255),
-                         font_size=18,
-                         font_type=os.path.join(os.getcwd(),"static","fonts","a.ttf"),
+                         font_size=20,
+                         font_type=os.path.join(os.getcwd(),"static","fonts","Early Times.ttf"),
                          length=4,
                          draw_lines=True,
                          n_line=(1, 2),
                          draw_points=True,
-                         point_chance = 2,caps=str()):
+                         point_chance = 1,caps=str()):
     '''
     @todo: 生成验证码图片
     @param size: 图片的大小，格式（宽，高），默认为(120, 30)

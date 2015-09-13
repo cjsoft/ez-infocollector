@@ -4,6 +4,7 @@
 - 需要mysql，在coding.io演示环境下可以直接部署，但是需要绑定一个mysql服务
 - 修改数据库链接信息，请在cjs.py的connect()中修改，或者直接添加环境变量VCAP_SERVICE，格式与coding.io演示平台的相同
 - 启动命令行见Procfile
+
 # 关于这个只有我一个人的项目
 - 没搞完
 - infoforms/下新建文件夹并填写main.cjsx数据表结构、form.html表单源码即可完成一个调查的新建

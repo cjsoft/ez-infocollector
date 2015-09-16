@@ -26,6 +26,7 @@ def makesqlstr(alist):
         s=list()
         for i in range(alist):
             s.append("%s")
+        print  ",".join(s)
         return ",".join(s)
     if(type(alist)is list):
         return ",".join(map(str,alist))
@@ -74,10 +75,12 @@ def mfr(formname=None):
             else:
                 if not(os.path.isfile(getpath(os.path.join("infoforms",formname,"db.lock")))):
                     sqlstr=makesqlstr(json.loads(readfile(getpath(os.path.join("infoforms",formname,"main.cjsx")))))
+                    cjs.connect()
                     cjs.execute("drop table if exists %s"%formname)
                     # print ("create table %s(%s)"%(formname,sqlstr))
                     cjs.execute("create table %s(%s)"%(formname,sqlstr))
                     cjs.commit()
+                    cjs.close()
                     f=open(os.path.join("infoforms",formname,"db.lock"),"w")
                     f.write("lock")
                     f.close()
@@ -88,7 +91,7 @@ def mfr(formname=None):
         else:
             files= request.files.to_dict()
             form=request.form.to_dict()
-            if (form["recaptcha"].upper()!=flask.session.get("recap").upper()):
+            if (form["recaptcha"].upper()!=flask.session.get("recap").upper() or flask.session.get("recap")==""):
                 return flask.render_template("template.html",title="CJSoft Info Collector",content="%s<br><br>%s<br><input type=\"submit\" value=\"提交\"></form>"%(readfile(getpath("infoforms/%s/form.html"%formname)),flask.render_template("recaptcha.html",recaptcha="true",inrecap="true")))
             del form["recaptcha"]
             flask.session["recap"]="never post again"
@@ -111,8 +114,10 @@ def mfr(formname=None):
             for i in form:
                 alist.append(form[i])
             # print "insert into %s values(%s)"%(formname,makesqlstr(alist))
+            cjs.connect()
             cjs.execute("insert into %s(%s) values(%s)"%(formname,makesqlstr(blist),makesqlstr(len(alist))),alist)
             cjs.commit()
+            cjs.close()
             return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>成功，对象</h2><h2>%s</h2><h2>已加入数据库，文件（若有）已被上传并索引</h2><a href=/form style=\"font-size:18px\">返回</a>"%str(form)))
     except ZeroDivisionError:
         pass
@@ -166,6 +171,6 @@ app.secret_key=secretkey
 sys.setdefaultencoding('utf-8')
 app.config['MAX_CONTENT_LENGTH'] = maxuploadlimit
 
-app.debug=True
+app.debug=False
 app.run(host=addres,port=por)
 

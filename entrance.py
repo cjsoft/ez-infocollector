@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #-*- coding=utf-8 -*-
 
 aucode="cjsoft"
@@ -159,12 +160,14 @@ def recap(iii=None):
     return flask.Response(temp, mimetype='image/jpeg')
 por=8080
 addres="0.0.0.0"
-opts,args=getopt.getopt(sys.argv[1:],"h:p:")
+opts,args=getopt.getopt(sys.argv[1:],"h:p:o:")
 for op,value in opts:
     if(op=="-h"):
         addres=value
     elif(op=="-p"):
         por=int(value)
+    elif(op=="-o"):
+        pass
 
 reload(sys)
 app.secret_key=secretkey

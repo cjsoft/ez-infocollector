@@ -26,9 +26,8 @@ sqlinfo=dumb()
 
 
 def connect():
-    global sqlinfo
-    global sqlconnection
-    global sql
+    global sqlinfo,sqlconnection,sql
+    global execute,sqlexecute
     sqlconnection=MySQLdb.connect(host=sqlinfo.hostname,user=sqlinfo.username,passwd=sqlinfo.password,db=sqlinfo.name,port=sqlinfo.port)
     sql=sqlconnection.cursor()
     sqlconnection.select_db(sqlinfo.name)
@@ -38,10 +37,9 @@ def connect():
     #    sql.execute("insert into test values(%s,%s)",[i,"dasf%s"%i])
     #sqlconnection.commit()
     sql.execute("alter database %s character set utf8"%sqlinfo.name)
-connect()
-    
-commit=sqlconnection.commit
-execute=sql.execute
+    commit=sqlconnection.commit
+    execute=sql.execute
+
 
 def close():
     sql.close()

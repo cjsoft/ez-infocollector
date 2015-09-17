@@ -27,7 +27,7 @@ sqlinfo=dumb()
 
 def connect():
     global sqlinfo,sqlconnection,sql
-    global execute,sqlexecute
+    global execute,commit
     sqlconnection=MySQLdb.connect(host=sqlinfo.hostname,user=sqlinfo.username,passwd=sqlinfo.password,db=sqlinfo.name,port=sqlinfo.port)
     sql=sqlconnection.cursor()
     sqlconnection.select_db(sqlinfo.name)

@@ -62,8 +62,10 @@ def export(dbname):
         ask=os.path.join(os.getcwd(),"tmp","%s.out"%uuid.uuid4())
         while(os.path.isfile(ask)):
             ask=os.path.join(os.getcwd(),"tmp","%s.out"%uuid.uuid4())
-    execute("select * from %s"%dbname)
+    connect()
+    execute("select * from %s;"%dbname)
     a=sql.fetchall()
+    close()
     f=open(ask,"w")
     for i in a:
         for j,k in enumerate(i):

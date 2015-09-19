@@ -138,8 +138,9 @@ def exportresults(dbname):
             if(os.path.isfile(getpath(os.path.join("infoforms",dbname,"db.lock")))):
                 sqlpath=cjs.export(dbname)
                 rstr=export.collect_uploads(dbname,sqlpath)
-                psplit=os.path.split(rstr)
-                f= flask.send_from_directory(psplit[0],psplit[1])
+                # psplit=os.path.split(rstr)
+                f=flask.send_file(rstr)
+                # f= flask.send_from_directory(psplit[0],psplit[1])
                 os.remove(rstr)
                 return f
             else:

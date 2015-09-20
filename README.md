@@ -59,6 +59,7 @@ baseuri=""
 ### 启动
 `python entrance.py`以config.py中设置的端口和IP启动。
 也可以`python entrance.py -h <IP> -p <port>`指定IP和端口
+linux下小号端口别忘sudo
 
 ## 关于表单
 在`infoforms`文件夹中新建以表单名为名字的文件夹，其中包含文件`main.cjsx`

@@ -11,7 +11,7 @@ secretkey="s%#$ra4$^q3$^25w&rae24s"
 addres="0.0.0.0"
 por=8080
 # 调试模式开关
-debug=False
+debug=True
 
 # Baseuri、不含最后的斜线、含第一个斜线(如果不为空)
 baseuri=""

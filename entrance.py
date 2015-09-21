@@ -112,7 +112,7 @@ def mfr(formname=None):
                 os.makedirs(getpath(os.path.join("upload",formname)))
             
             for i in files:
-                ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
+                ask=os.path.join("upload",formncame,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 while(os.path.isfile(ask)):
                     ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 request.files[i].save(getpath(ask))

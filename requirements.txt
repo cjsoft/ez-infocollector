@@ -4,3 +4,4 @@ Jinja2==2.7.2
 Werkzeug==0.8.3
 mysql-python==1.2.5
 Pillow==2.9.0
+xlwt==1.0.0

@@ -5,7 +5,10 @@
 
 - 已达成初步目标
 
-*暂时还没有进一步目标怎么办qaq*
+## What's New?
+1. 导出标准的Excel文档
+2. 没有更多了
+
 
 ---
 ## 关于部署
@@ -28,6 +31,7 @@ pip install -r requirements.txt
 ```
 ##### 3. 上一步如果出红字了的话，而且是mysql-python的问题的话
 去[这里](http://www.codegood.com/downloads)下一个对应你Py版本的mysql-python binaries，安装。
+
 进`<Py2.7安装目录>\Lib\site-packages\`看`MySQLdb`文件夹的大小写是否正确，如果和上面所写的不一样，请手动纠正大小写
 
 #### config.py
@@ -58,7 +62,9 @@ baseuri=""
 
 ### 启动
 `python entrance.py`以config.py中设置的端口和IP启动。
+
 也可以`python entrance.py -h <IP> -p <port>`指定IP和端口
+
 linux下小号端口别忘sudo
 
 ## 关于表单
@@ -72,8 +78,11 @@ linux下小号端口别忘sudo
 ]
 ```
 这种以JSON描述的数据表结构的文件`main.cjsx`，注意由于文件只索引路径，所以务必要使用字符串类型如text。更多知识请移步[w3school](http://www.w3school.com.cn/sql/sql_datatypes.asp)的mysql数据类型部分
+
 以及文件`form.html`
+
 使用html来设计表单，input元素的name应该与`main.cjsx`当中的相对应，顺序不必对应
+
 这有一个例子
 ```html
 
@@ -87,7 +96,8 @@ linux下小号端口别忘sudo
 
 **删除表单**：删除表单文件夹就好了。数据库不会自动drop table，，不过也不会影响，因为如果出现同名表单的话会旧数据表会被初始化掉。处女座请自行drop table
 
-**导出表单**：访问`<baseuri>/export/<表单名字>`，输入config.py当中的aucode，可以导出一个zip，里面有上传的文件还有一个xls，打开xls之后可能提醒你损坏，但是可以正常看。
+**导出表单**：访问`<baseuri>/export/<表单名字>`，输入config.py当中的aucode，可以导出一个zip，里面有上传的文件还有一个xls
+
 ***
 这就是个自娱自乐的项目，不要太在意细节←\_←
 ***

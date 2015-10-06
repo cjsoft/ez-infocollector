@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import os,json
 import sys
 import MySQLdb
-import uuid
+import uuid,xlwt
 class dumb(object):
     def __init__(self):
         a=os.getenv("VCAP_SERVICES")
@@ -23,8 +23,18 @@ class dumb(object):
 
 sqlinfo=dumb()
 
-
-
+def xlsstyle(bold=False,top=0,right=0,bottom=0,left=0):
+    style=xlwt.XFStyle()
+    borders=xlwt.Borders()
+    borders.top=top
+    borders.right=right
+    borders.left=left
+    borders.bottom=bottom
+    font=xlwt.Font()
+    font.bold=bold
+    style.borders=borders
+    style.font=font
+    return style
 def connect():
     global sqlinfo,sqlconnection,sql
     global execute,commit
@@ -63,18 +73,42 @@ def export(dbname):
         while(os.path.isfile(ask)):
             ask=os.path.join(os.getcwd(),"tmp","%s.out"%uuid.uuid4())
     connect()
+    workbook=xlwt.Workbook(encoding="utf-8")
+    sheet=workbook.add_sheet("Sheet1",cell_overwrite_ok=True)
+    execute("desc %s;"%dbname)
+    structure=sql.fetchall()
+    st=xlsstyle(True,1,1,1,1)
+    ali=xlwt.Alignment()
+    ali.horz=2
+    st.alignment=ali
+    sheet.write_merge(0,0,0,len(structure)-1,dbname,st)
+    for i in range(len(structure)):
+        sheet.write(1,i,structure[i][0],xlsstyle(True))
+    cnt=2
     execute("select * from %s;"%dbname)
     a=sql.fetchall()
-    close()
-    f=open(ask,"w")
+    st=xlsstyle()
+    ali=xlwt.Alignment()
+    ali.horz=1
+    st.alignment=ali
     for i in a:
-        for j,k in enumerate(i):
-            if type(k) is str:
-                f.write(str(k).encode("gb2312"))
-            else:
-                f.write(str(k).encode("gb2312"))
-            if(j!=len(i)-1):
-                f.write("\t".encode("gb2312"))
-        f.write("\n".encode("gb2312"))
-    f.close()
+        for j in range(len(i)):
+            sheet.write(cnt,j,i[j],st)
+        cnt=cnt+1
+    workbook.save(ask)
+    close()
+    # f=open(ask,"w")
+    # for i in a:
+    #     for j,k in enumerate(i):
+    #         if type(k) is str:
+    #             f.write(str(k).encode("gb2312"))
+    #         else:
+    #             f.write(str(k).encode("gb2312"))
+    #         if(j!=len(i)-1):
+    #             f.write("\t".encode("gb2312"))
+    #     f.write("\n".encode("gb2312"))
+    # f.close()
     return ask
+
+# reload(sys)
+# sys.setdefaultencoding('utf-8')

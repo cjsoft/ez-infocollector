@@ -1,7 +1,7 @@
-FROM ubuntu
+FROM daocloud.io/python:2-onbuild
 RUN apt-get update
-RUN apt-get install -y python
-RUN apt-get install -y python-dev python-pip build-essential
+
+
 RUN apt-get install -y mysql-client
 RUN apt-get install -y libmysqld-dev libmysqlclient-dev
 

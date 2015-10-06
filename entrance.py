@@ -1,15 +1,14 @@
 #!/usr/bin/python
 #-*- coding=utf-8 -*-
 
-from config import aucode,maxuploadlimit,secretkey
-from config import addres,por
-from config import debug,baseuri
+aucode="cjsoft"
+maxuploadlimit=20*1024*1024
+secretkey="s%#$ra4$^q3$^25w&rae24s"
 
-import threading
 import sys,getopt,shutil
 import os,flask,json,cjs
 import uuid,recapcha
-import export,time
+import export
 from flask import url_for
 from flask import Flask
 from flask import Response
@@ -22,17 +21,6 @@ def readfile(path):
     tmp=f.read()
     f.close()
     return tmp
-
-def ujoin(*pth):
-    return os.path.join(*pth).replace("\\","/")
-
-def deletefile(path):
-    while True:
-        try:
-            os.remove(path)
-            return
-        except BaseException:
-            time.sleep(1)
 
 def makesqlstr(alist):
     if type(alist) is int:
@@ -57,7 +45,7 @@ def makeform(alist):
 def getpath(rph):
     return os.path.join(os.getcwd(),rph);
 
-@app.route(baseuri+"/")
+@app.route("/")
 def root():
     if os.path.exists("index.html"):
         return app.send_static_file("index.html")
@@ -72,8 +60,8 @@ def root():
 #         return app.send_static_file(path)
 #     else:
 #         return app.send_static_file(os.path.join(path,"index.html"))
-@app.route(baseuri+"/form")
-@app.route(baseuri+"/form/<formname>",methods=["POST","GET"])
+@app.route("/form")
+@app.route("/form/<formname>",methods=["POST","GET"])
 def mfr(formname=None):
     try:
         if request.method=="GET":
@@ -112,7 +100,7 @@ def mfr(formname=None):
                 os.makedirs(getpath(os.path.join("upload",formname)))
             
             for i in files:
-                ask=os.path.join("upload",formncame,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
+                ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 while(os.path.isfile(ask)):
                     ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 request.files[i].save(getpath(ask))
@@ -140,7 +128,7 @@ def mfr(formname=None):
     except BaseException,e:
         print e
         return flask.render_template("template.html",title="CJSoft Info Collector/%s"%formname,content=("<h2>%s</h2><a href=/form style=\"font-size:18px\">返回</a><br><br>唔，遇到了一点错误,你是不是写错了格式？"%formname).decode("utf-8"))
-@app.route(baseuri+"/export/<dbname>",methods=["POST","GET"])
+@app.route("/export/<dbname>",methods=["POST","GET"])
 def exportresults(dbname):
     if request.method=="GET":
         return flask.render_template("template.html",title="CJSoft Info Collector",content=flask.render_template("au.html",fn=dbname,extra=""))
@@ -150,20 +138,10 @@ def exportresults(dbname):
             if(os.path.isfile(getpath(os.path.join("infoforms",dbname,"db.lock")))):
                 sqlpath=cjs.export(dbname)
                 rstr=export.collect_uploads(dbname,sqlpath)
-<<<<<<< HEAD
                 psplit=os.path.split(rstr)
                 f= flask.send_from_directory(psplit[0],psplit[1])
                 os.remove(rstr)
                 return flask.Response([f],mimetype="application/zip")
-=======
-                # psplit=os.path.split(rstr)
-                f=flask.send_file(rstr)
-                # f= flask.send_from_directory(psplit[0],psplit[1])
-                s=threading.Thread(target=deletefile,args=(rstr,))
-                s.setDaemon(True)
-                s.start()
-                return f
->>>>>>> origin/master
             else:
                 return flask.render_template("template.html",title="CJSoft Info Collector",content=("<h2>导出失败，没有可供导出的数据</h2>").decode("utf8"))
         else:
@@ -172,15 +150,16 @@ def exportresults(dbname):
 def favicon():
     return app.send_static_file("favicon.ico")
 
-@app.route(baseuri+"/recapcha.py")
-@app.route(baseuri+"/recapcha.py/<iii>")
+@app.route("/recapcha.py")
+@app.route("/recapcha.py/<iii>")
 def recap(iii=None):
     a,b=recapcha.create_validate_code()
     flask.session["recap"]=b
     temp=a.read()
     a.close()
     return flask.Response(temp, mimetype='image/jpeg')
-
+por=8080
+addres="0.0.0.0"
 opts,args=getopt.getopt(sys.argv[1:],"h:p:o:")
 for op,value in opts:
     if(op=="-h"):
@@ -195,6 +174,6 @@ app.secret_key=secretkey
 sys.setdefaultencoding('utf-8')
 app.config['MAX_CONTENT_LENGTH'] = maxuploadlimit
 
-app.debug=debug
+app.debug=False
 app.run(host=addres,port=por)
 

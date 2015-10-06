@@ -1,4 +1,5 @@
 FROM ubuntu
+RUN apt-get update
 RUN apt-get install -y python
 RUN apt-get install -y python-dev python-pip build-essential
 RUN apt-get install -y mysql-server

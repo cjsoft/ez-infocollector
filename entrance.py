@@ -141,7 +141,7 @@ def exportresults(dbname):
                 psplit=os.path.split(rstr)
                 f= flask.send_from_directory(psplit[0],psplit[1])
                 os.remove(rstr)
-                return f
+                return flask.Response([f],mimetype="application/zip")
             else:
                 return flask.render_template("template.html",title="CJSoft Info Collector",content=("<h2>导出失败，没有可供导出的数据</h2>").decode("utf8"))
         else:

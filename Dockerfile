@@ -1,7 +1,7 @@
 FROM ubuntu
  
 RUN apt-get update
-RUN apt-get install -y python-setuptools 
+RUN apt-get install -y python-setuptools build-essential
 RUN apt-get install -y mysql-client
 RUN apt-get install -y libmysqld-dev libmysqlclient-dev
 RUN easy_install pip

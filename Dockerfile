@@ -12,4 +12,4 @@ RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-CMD ["/app/launch.sh]
+CMD ["/src/app/launch.sh]

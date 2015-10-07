@@ -2,6 +2,8 @@ FROM ubuntu
 RUN apt-get install -y python-setuptools  
 RUN apt-get update
 RUN easy_install pip
+RUN apt-get install -y mysql-client
+RUN apt-get install -y libmysqld-dev libmysqlclient-dev
 EXPOSE 8080
 EXPOSE 80
 RUN mkdir -p /app

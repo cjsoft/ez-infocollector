@@ -12,4 +12,4 @@ RUN mkdir -p /app
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
-CMD ["/usr/bin/python","/app/entrance.py -h 0.0.0.0 -p $PORT"]
+CMD ["python","/app/entrance.py -h 0.0.0.0 -p $PORT"]

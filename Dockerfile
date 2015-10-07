@@ -1,7 +1,7 @@
-FROM ubuntu
-RUN apt-get install -y python-setuptools  
+FROM daocloud.io/python:2.7
 RUN apt-get update
-RUN easy_install pip
+
+
 RUN apt-get install -y mysql-client
 RUN apt-get install -y libmysqld-dev libmysqlclient-dev
 EXPOSE 8080

@@ -1,1 +1,1 @@
-python entrance.py -h 0.0.0.0 -p $PORT
+python /src/app/entrance.py -h 0.0.0.0 -p $PORT

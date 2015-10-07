@@ -1,1 +1,1 @@
-/bin/ls
+python entrance.py -h 0.0.0.0 -p $PORT

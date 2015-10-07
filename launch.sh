@@ -1,1 +1,1 @@
-python entrance.py -h 0.0.0.0 -p 8080
+/bin/ls

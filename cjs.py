@@ -5,10 +5,10 @@ import MySQLdb
 import uuid,xlwt
 class dumb(object):
     def __init__(self):
-        # a=os.getenv("VCAP_SERVICES")
+        a=os.getenv("VCAP_SERVICES")
         #print a
         # if(a is None):
-        a='{"mysql":[{"name":"cjsoft-ez-infocollector","label":"mysql","tags":["mysql"],"plan":"default","credentials":{"hostname":"10.10.26.58","port":3306,"name":"nC9zf5AHNuFVphiK","username":"u3R6Nnpy8QqcUhkH","password":"pb052rFGwfyXWQTaz","uri":"mysql://u3R6Nnpy8QqcUhkH:pb052rFGwfyXWQTaz@10.10.26.58:3306/nC9zf5AHNuFVphiK?reconnect=true","jdbcUrl":"jdbc:mysql://10.10.26.58:3306/nC9zf5AHNuFVphiK?user=u3R6Nnpy8QqcUhkH&password=pb052rFGwfyXWQTaz"}}]}'
+        # a='{"mysql":[{"name":"cjsoft-ez-infocollector","label":"mysql","tags":["mysql"],"plan":"default","credentials":{"hostname":"10.10.26.58","port":3306,"name":"nC9zf5AHNuFVphiK","username":"u3R6Nnpy8QqcUhkH","password":"pb052rFGwfyXWQTaz","uri":"mysql://u3R6Nnpy8QqcUhkH:pb052rFGwfyXWQTaz@10.10.26.58:3306/nC9zf5AHNuFVphiK?reconnect=true","jdbcUrl":"jdbc:mysql://10.10.26.58:3306/nC9zf5AHNuFVphiK?user=u3R6Nnpy8QqcUhkH&password=pb052rFGwfyXWQTaz"}}]}'
 
         vcap_services=json.loads(a.encode("utf8"))
         sqlservices=vcap_services[u"mysql"][0]
@@ -20,7 +20,7 @@ class dumb(object):
         self.password=sqlservices[u"credentials"][u"password"]
         self.uri=sqlservices[u"credentials"][u"uri"]
         self.jdbcUrl=sqlservices[u"credentials"][u"jdbcUrl"]
-        #print os.getenv("VCAP_SERVICES")
+        print os.getenv("VCAP_SERVICES")
 
 sqlinfo=dumb()
 

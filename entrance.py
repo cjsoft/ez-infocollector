@@ -74,6 +74,8 @@ def mfr(formname=None):
                             st+="<a href=form/%s>%s</a><br>"%(i,i)
                 return flask.render_template("template.html",content=flask.render_template("formlist.html",content=st))
             else:
+                if not os.path.isdir(getpath(os.path.join("infoforms" , formname))):
+                    return ''
                 if not(os.path.isfile(getpath(os.path.join("infoforms",formname,"db.lock")))):
                     sqlstr=makesqlstr(json.loads(readfile(getpath(os.path.join("infoforms",formname,"main.cjsx")))))
                     cjs.connect()

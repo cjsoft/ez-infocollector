@@ -155,6 +155,7 @@ def favicon():
 def recap(iii=None):
     a,b=recapcha.create_validate_code()
     flask.session["recap"]=b
+    print b
     temp=a.read()
     a.close()
     return flask.Response(temp, mimetype='image/jpeg')

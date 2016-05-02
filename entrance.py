@@ -108,10 +108,10 @@ def mfr(formname=None):
                     ask=os.path.join("upload",formname,str(uuid.uuid4())+os.path.splitext(request.files[i].filename)[1])
                 request.files[i].save(getpath(ask))
                 if(os.path.getsize(getpath(ask))==0):
-                	os.remove(getpath(ask))
-                	form[i]=""
+                    os.remove(getpath(ask))
+                    form[i]=""
                 else:
-                	form[i]=ask
+                    form[i]=ask
             
             alist=list()
             blist=[i for i in form]
@@ -158,7 +158,7 @@ def favicon():
 def recap(iii=None):
     a,b=recapcha.create_validate_code()
     flask.session["recap"]=b
-    print b
+    print flask.session["recap"]
     temp=a.read()
     a.close()
     return flask.Response(temp, mimetype='image/jpeg')

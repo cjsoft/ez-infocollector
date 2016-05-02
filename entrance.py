@@ -94,6 +94,7 @@ def mfr(formname=None):
         else:
             files= request.files.to_dict()
             form=request.form.to_dict()
+            print form["recaptcha"].upper()
             if (form["recaptcha"].upper()!=flask.session.get("recap").upper() or flask.session.get("recap")==""):
                 return flask.render_template("template.html",title="CJSoft Info Collector",content="%s<br><br>%s<br><input type=\"submit\" value=\"提交\"></form>"%(readfile(getpath("infoforms/%s/form.html"%formname)),flask.render_template("recaptcha.html",recaptcha="true",inrecap="true")))
             del form["recaptcha"]

@@ -24,8 +24,8 @@ sudo apt-get install python-dev python-pip build-essential
 sudo pip install -r requirements.txt
 ```
 #### Windows
-#####1. 搞一个Py2.7，最好自带pip
-#####2. 开cmd，进入项目目录
+##### 1. 搞一个Py2.7，最好自带pip
+##### 2. 开cmd，进入项目目录
 ```
 pip install -r requirements.txt
 ```
